@@ -1,18 +1,31 @@
 #include <Arduino.h>
 
-// put function declarations here:
-int myFunction(int, int);
+#include "const.h"
+#include "config.h"
 
-void setup() {
-  // put your setup code here, to run once:
-  int result = myFunction(2, 3);
+#include "hardware/gpio.h"
+
+void setup() { //Setup on core0, will initialize hardware and tasks
+  Serial.begin(115200);
+
+  // Print the version of the firmware
+  Serial.print("Starting OrangeFlight version ");
+  Serial.print(ORANGEFLIGHT_VERSION);
+  Serial.println("!");
+
+  initGPIO();
+  initSensors();
 }
 
-void loop() {
-  // put your main code here, to run repeatedly:
+void loop() { //Main loop on core0, will run the main control loop
+  
 }
 
-// put function definitions here:
-int myFunction(int x, int y) {
-  return x + y;
+void setup1() { //Setup on core1, will initialize the task system
+  //addTask(<function pointer>, <task name>, <task period in ms / other criteria>);
+  std::vector<Task> tasks;
+}
+
+void loop1() { //Main loop on core1, will run the task system
+  runTasks(); 
 }
