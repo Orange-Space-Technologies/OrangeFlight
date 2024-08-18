@@ -20,6 +20,7 @@ Task::Task(void (*functionArg)(void), String nameArg, ulong periodArg) {
 }
 
 void Task::run() {
+    lastRun = millis();
     function();
 }
 
@@ -28,6 +29,32 @@ int Task::getPriority() {
     return runIn * priority * -1;
 }
 
-void runTasks(std::vector<Task> tasks) {
-    // Do some magic here
+void runAllTasks(std::vector<Task> tasks) {
+    int n = tasks.size();
+    ulong priorities[n];
+    for (int i = 0; i < n; i++) {
+        priorities[i] = tasks[i].getPriority();
+    }
+
+    for (int i = 0; i < n; i++) {
+        int max = 0;
+        for (int j = 0; j < n; j++) {
+            if (priorities[j] > priorities[max]) {
+                max = j;
+            }
+        }
+        tasks[max].run();
+        priorities[max] = 0;
+    }
+}
+
+void runMostImportantTask(std::vector<Task> tasks) {
+    int n = tasks.size();
+    int max = 0;
+    for (int i = 0; i < n; i++) {
+        if (tasks[i].getPriority() > tasks[max].getPriority()) {
+            max = i;
+        }
+    }
+    tasks[max].run();
 }

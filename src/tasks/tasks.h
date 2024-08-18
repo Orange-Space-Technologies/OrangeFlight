@@ -15,4 +15,5 @@ class Task {
         int getPriority(); // Get the task priority for the scheduler
 };
 
-void runTasks(std::vector<Task> tasks); // Run tasks, will be called in src/main.cpp by loop1()
+void runTasks(std::vector<Task> tasks); // Run all tasks, will be called in src/main.cpp by loop1()
+void runMostImportantTask(std::vector<Task> tasks); // Run the most important task, will be called in src/main.cpp by loop1()
