@@ -58,6 +58,24 @@
         "stdexcept": "cpp",
         "streambuf": "cpp",
         "thread": "cpp",
-        "cinttypes": "cpp"
-    }
+        "cinttypes": "cpp",
+        "bitset": "cpp",
+        "complex": "cpp",
+        "iostream": "cpp",
+        "valarray": "cpp",
+        "associative_base": "cpp",
+        "basic_definitions": "cpp",
+        "char_traits": "cpp",
+        "func_exception": "cpp",
+        "ios": "cpp",
+        "istream_helpers": "cpp",
+        "iterator_base": "cpp",
+        "locale": "cpp",
+        "ostream_helpers": "cpp",
+        "queue": "cpp",
+        "serstream": "cpp",
+        "stack": "cpp",
+        "string_iostream": "cpp"
+    },
+    "C_Cpp.errorSquiggles": "enabled"
 }

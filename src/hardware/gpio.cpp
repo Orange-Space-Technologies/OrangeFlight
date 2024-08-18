@@ -27,6 +27,7 @@ void initSensors() {
     initIMU();
     initBarometer();
     initGPS();
+    initRadio();
 }
 
 void initIMU() {
@@ -39,4 +40,11 @@ void initBarometer() {
 
 void initGPS() {
     // Initialize the <random> GPS module here
+}
+
+void initRadio() {
+    RADIO_UART.setTX(RADIO_TX_PIN);
+    RADIO_UART.setRX(RADIO_RX_PIN);
+    RADIO_UART.setFIFOSize(RADIO_FIFO_SIZE);
+    RADIO_UART.begin(RADIO_BAUD);
 }

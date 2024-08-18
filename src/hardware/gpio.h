@@ -10,3 +10,4 @@ void initSensors(); // Initializes all sensors, will also be called in src/main.
 void initIMU(); // Initializes the BNO055 IMU
 void initBarometer(); // Initializes the BMP280 barometer
 void initGPS(); // Initializes the GPS module
+void initRadio(); // Inizializes the radio module (sets up UART)

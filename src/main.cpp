@@ -1,13 +1,4 @@
-#include <Arduino.h>
-#include <vector>
-
-#include "const.h"
-#include "config.h"
-
-#include "hardware/gpio.h"
-#include "tasks/tasks.h"
-#include "state/state.h"
-#include "enums.h"
+#include "main.h"
 
 std::vector<Task> tasks; // will be used by the scheduler on core1
 V_STATE v_state = V_STATE::INIT; // Vehicle state global variable
@@ -28,7 +19,29 @@ void setup() { //Setup on core0, will initialize hardware and tasks
 }
 
 void loop() { //Main loop on core0, will run the main control loop
-    
+    switch (v_state)
+    {
+    case V_STATE::INIT:
+        break;
+    case V_STATE::IDLE:
+        break;
+    case V_STATE::PAD_IDLE:
+        break;
+    case V_STATE::POWERED_ASCENT:
+        break;
+    case V_STATE::COAST:
+        break;
+    case V_STATE::DESCENT:
+        break;
+    case V_STATE::PARACHUTE:
+        break;
+    case V_STATE::LANDED:
+        break;
+    default:
+        break;
+    }
+
+    sendTelemetry();
 }
 
 void setup1() { //Setup on core1, will initialize the task system
