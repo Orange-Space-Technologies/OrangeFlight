@@ -6,8 +6,12 @@
 
 #include "hardware/gpio.h"
 #include "tasks/tasks.h"
+#include "state/state.h"
+#include "enums.h"
 
 std::vector<Task> tasks; // will be used by the scheduler on core1
+V_STATE v_state = V_STATE::INIT; // Vehicle state global variable
+StateVector state_vector;
 
 void setup() { //Setup on core0, will initialize hardware and tasks
   Serial.begin(115200);
@@ -19,6 +23,8 @@ void setup() { //Setup on core0, will initialize hardware and tasks
 
   initGPIO();
   initSensors();
+  state_vector = StateVector();
+  v_state = V_STATE::IDLE;
 }
 
 void loop() { //Main loop on core0, will run the main control loop
