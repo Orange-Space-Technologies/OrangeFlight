@@ -1,9 +1,11 @@
 #include <Arduino.h>
+#include <vector>
 
 #include "const.h"
 #include "config.h"
 
 #include "hardware/gpio.h"
+#include "tasks/tasks.h"
 
 void setup() { //Setup on core0, will initialize hardware and tasks
   Serial.begin(115200);
@@ -22,8 +24,8 @@ void loop() { //Main loop on core0, will run the main control loop
 }
 
 void setup1() { //Setup on core1, will initialize the task system
-  //addTask(<function pointer>, <task name>, <task period in ms / other criteria>);
   std::vector<Task> tasks;
+  // tasks.push_back(Task(<function pointer>, <name>, <task period in ms>, <priority>));
 }
 
 void loop1() { //Main loop on core1, will run the task system
