@@ -13,11 +13,18 @@
 #define PIN_PYRO_2_FIRE 3
 // #define PIN_PYRO_3_FIRE 3
 // #define PIN_PYRO_4_FIRE 4
-
+#define PYRO_CONTINUITY_ENABLED
 // #define PIN_PYRO_1_CONTINUITY 5
 // #define PIN_PYRO_2_CONTINUITY 6
 // #define PIN_PYRO_3_CONTINUITY 7
 // #define PIN_PYRO_4_CONTINUITY 8
+
+#define PYRO_FIRE_STREAMER() firePyro1()
+#define PYRO_FIRE_MAIN() firePyro2()
+#define PYRO_STREAMER_CONTINUITY_CHECK() continuityCheckPyro1()
+#define PYRO_MAIN_CONTINUITY_CHECK() continuityCheckPyro2()
+#define PYRO_STREAMER_FIRED PYRO_1_FIRED
+#define PYRO_MAIN_FIRED PYRO_2_FIRED
 
 // Sensors
 #define SENSORS_I2C_BUS Wire
@@ -46,4 +53,22 @@
 #define PAD_IDLE_MOVEMENT_TRESHOLD 0.1 // 10cm
 
 // Launch treshold
-#define LAUNCH_TRESHOLD 10 // 10 m/s^2
+#define LAUNCH_TRESHOLD_ACCEL 10  // m/s^2
+#define LAUNCH_TRESHOLD_VEL   0.5 // m/s
+#define LAUNCH_TRESHOLD_POS   2   // m
+
+// Apogee detection
+#define APOGEE_TIMEOUT 200 // 200ms
+#define MAX_ALTITUDE_DIFFERENCE 5 // 5m
+
+// Parachute deployment
+
+// Uncomment if you want to fire the streamer at apogee
+// #define TWO_STAGE_RECOVERY
+
+#define PARACHUTE_DEPLOYMENT_ALTITUDE 100 // 100m
+
+// Landed requirements
+#define LANDED_TIME_NEEDED 3000 // 3 seconds
+#define LANDED_MOVEMENT_TRESHOLD 0.5 // 50cm
+#define LANDED_VELOCITY_TRESHOLD 0.1 // 10cm/s

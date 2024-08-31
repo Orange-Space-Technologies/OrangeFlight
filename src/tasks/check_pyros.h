@@ -2,4 +2,4 @@
 
 #include "globals.h"
 
-void task_check_core1();
+void task_check_pyros();

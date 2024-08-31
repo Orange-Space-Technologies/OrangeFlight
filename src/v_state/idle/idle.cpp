@@ -5,6 +5,7 @@ StateVector temp_state_vector;
 
 unsigned long idle_start_time = 0;
 
+// Wait for no movement for a while, then switch to PAD_IDLE
 void v_state_idle() { // If no movement for a certain time, switch to PAD_IDLE
     imu_acceleration = sensor_imu.getVector(Adafruit_BNO055::VECTOR_LINEARACCEL);
 

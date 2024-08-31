@@ -8,6 +8,8 @@
 #include "tasks/tasks.h"
 #include "logging/logging.h"
 #include "hardware/sensors.h"
+#include "hardware/gpio.h"
+#include "hardware/pyro.h"
 
 #include "state/v_state.h"
 #include "state/p_state.h"
@@ -19,6 +21,7 @@ V_STATE v_state = V_STATE::INIT; // Vehicle state global variable
 // Rocket physical state
 StateVector state_vector;
 int8_t temperature = 0;
+double max_altitude = 0.0;
 
 // Core states
 CORE_STATE state_core0 = {P_STATE::INIT, "", false, 0};

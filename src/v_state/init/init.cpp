@@ -8,6 +8,7 @@ unsigned char imu_system_calibration_status = 0, imu_gyro_calibration_status = 0
 
 unsigned long imu_calibration_timeout_start_time = 0;
 
+// Check sensor calibration
 void v_state_init()
 {
     // Check sensors and calibrate the BNO055

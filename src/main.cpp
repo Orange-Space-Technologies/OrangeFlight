@@ -1,5 +1,8 @@
 #include "main.h"
 
+#include "tasks/check_core1.h"
+#include "tasks/check_pyros.h"
+
 void setup()
 { // Setup on core1, will initialize the task system
     rp2040.idleOtherCore();
@@ -26,6 +29,11 @@ void setup()
     log_event("Registering tasks...");
     // tasks.push_back(Task(<function pointer>, <name>, <task period in ms>, <priority 0-50, default 10>));
     // tasks.push_back(Task(*gps_task, "GPS", 1000, 12));
+    
+    // Register tasks
+    tasks.push_back(Task(*task_check_core1, "Check core1", 500, 12));
+    tasks.push_back(Task(*task_check_pyros, "Check pyros", 1000, 10));
+
     CHECK_CORE0();
     log_event("[OK] Task system initialized.");
 
