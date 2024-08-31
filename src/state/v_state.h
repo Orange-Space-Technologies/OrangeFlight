@@ -10,3 +10,5 @@ enum class V_STATE { // Vehicle state
     PARACHUTE, // Parachute is deployed
     LANDED, // Rocket has landed
 };
+
+void v_state_change(V_STATE *state, V_STATE new_state); // Function to change the vehicle state

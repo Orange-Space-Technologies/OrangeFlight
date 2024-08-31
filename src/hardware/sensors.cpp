@@ -8,6 +8,14 @@ void initSensors() {
     initRadio();
 }
 
+void processSensors() {
+    imu::Vector<3> imu_acceleration = sensor_imu.getVector(Adafruit_BNO055::VECTOR_LINEARACCEL);
+    imu::Quaternion imu_attitude = sensor_imu.getQuat();
+    state_vector.update(imu_acceleration);
+    state_vector.updateAttitude(imu_attitude);
+    temperature = sensor_imu.getTemp();
+}
+
 void initIMU() {
     sensor_imu = Adafruit_BNO055(55, 0x28, &SENSORS_I2C_BUS);
 }

@@ -20,12 +20,12 @@ Task::Task(void (*functionArg)(void), String nameArg, ulong periodArg) {
 }
 
 void Task::run() {
-    lastRun = millis();
+    lastRun = GET_TIME();
     function();
 }
 
 int Task::getPriority() {
-    ulong runIn = period - (millis() - lastRun);
+    ulong runIn = period - (GET_TIME() - lastRun);
     return runIn * priority * -1;
 }
 

@@ -3,6 +3,8 @@
 #include <Arduino.h>
 #include <vector>
 
+#include "globals.h"
+
 class Task {
     private:
         void (*function)(void); // Function pointer to the task function that will be called

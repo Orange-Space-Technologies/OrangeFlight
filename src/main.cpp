@@ -1,60 +1,80 @@
 #include "main.h"
 
-void setup() { //Setup on core1, will initialize the task system
+void setup()
+{ // Setup on core1, will initialize the task system
     rp2040.idleOtherCore();
     // Init serial port
     Serial.begin(115200);
-    while (!Serial) delay(10); // Wait for serial port to open
+    while (!Serial)
+        delay(10); // Wait for serial port to open
+
+    // Init the logging subsystem
+    setup_logging();
 
     // Print the version of the firmware
-    Serial.print("Starting OrangeFlight version ");
-    Serial.print(ORANGEFLIGHT_VERSION);
-    Serial.println(" on core0 !");
+    log_event("Starting OrangeFlight version ");
+    log_event(ORANGEFLIGHT_VERSION);
+    log_event(" on core0 !");
 
-    Serial.println("Initializing sensors and GPIO...");
+    log_event("Initializing sensors and GPIO...");
     initGPIO();
     initSensors();
     CHECK_CORE0();
-    Serial.println("[OK] Sensors and GPIO initialized.");
+    log_event("[OK] Sensors and GPIO initialized.");
 
-    Serial.println("Initializing the task system...");
-    Serial.println("Registering tasks...");
-    //tasks.push_back(Task(<function pointer>, <name>, <task period in ms>, <priority 0-50, default 10>));
-    //tasks.push_back(Task(*gps_task, "GPS", 1000, 12));
+    log_event("Initializing the task system...");
+    log_event("Registering tasks...");
+    // tasks.push_back(Task(<function pointer>, <name>, <task period in ms>, <priority 0-50, default 10>));
+    // tasks.push_back(Task(*gps_task, "GPS", 1000, 12));
     CHECK_CORE0();
-    Serial.println("[OK] Task system initialized.");
-    
-    if (state_core0.p_state != P_STATE::INIT) { // Init (or some other) error
-        Serial.println("Error initializing core0, error message:");
-        Serial.println(state_core0.error_message);
-        Serial.println("Exiting...");
+    log_event("[OK] Task system initialized.");
+
+    if (state_core0.p_state != P_STATE::INIT)
+    { // Init (or some other) error
+        log_event("Error initializing core0, error message:");
+        
+        uint buff_size = state_core0.error_message.length() + 1;
+        char error_message[buff_size];
+        state_core0.error_message.toCharArray(error_message, buff_size);
+        log_event(error_message);
+        log_event("Exiting...");
         return;
     }
     state_core0.p_state = P_STATE::NORMAL;
     rp2040.resumeOtherCore();
 }
 
-void loop() { //Main loop on core1, will run the task system
+void loop()
+{ // Main loop on core1, will run the task system
     runMostImportantTask(tasks);
 }
 
-void setup1() { //Setup on core0, will initialize hardware and tasks
+void setup1()
+{                                        // Setup on core0, will initialize hardware and tasks
     state_core1.p_state = P_STATE::INIT; // Reset core state, this core might have been reset by the other core after failure
-    if (state_core1.was_restared) { // This core was restarted after an error
+    if (state_core1.was_restared)
+    { // This core was restarted after an error
         // state_core1.restart_count++;
-        Serial.println("Restarting core1 after an error, trying to recover...");
-        Serial.print("Error message from core1: ");
-        Serial.println(state_core1.error_message);
+        log_event("Restarting core1 after an error, trying to recover...");
+        log_event("Error message from core1: ");
+        
+        uint buff_size = state_core1.error_message.length() + 1;
+        char error_message[buff_size];
+        state_core1.error_message.toCharArray(error_message, buff_size);
+        log_event(error_message);
     }
     state_core1.error_message = "";
 
     state_vector = StateVector();
     v_state = V_STATE::IDLE;
-    
+
     state_core1.p_state = P_STATE::NORMAL;
 }
 
-void loop1() { //Main loop on core0, will run the main control loop
+void loop1()
+{ // Main loop on core0, will run the main control loop
+    loop_start_time = GET_TIME();
+
     switch (v_state)
     {
     case V_STATE::INIT:
@@ -86,6 +106,23 @@ void loop1() { //Main loop on core0, will run the main control loop
     }
 
     sendTelemetry();
+
+    if (state_core1.p_state != P_STATE::NORMAL)
+    {
+        log_event("Error in core1, error message:");
+
+        uint buff_size = state_core1.error_message.length() + 1;
+        char error_message[buff_size];
+        state_core1.error_message.toCharArray(error_message, buff_size);
+        log_event(error_message);
+        
+        for (;;) {delay(10);}
+    }
+
+    // Delay to keep the loop running at the desired frequency
+    loop_duration = GET_TIME() - loop_start_time;
+    if (loop_duration < CONTROL_LOOP_PERIOD)
+    {
+        delay(CONTROL_LOOP_PERIOD - loop_duration);
+    }
 }
-
-
