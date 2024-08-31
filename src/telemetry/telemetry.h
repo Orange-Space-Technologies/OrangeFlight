@@ -1,4 +1,6 @@
+#pragma once
+
 #include <Arduino.h>
-#include "main.h"
+#include "globals.h"
 
 void sendTelemetry();

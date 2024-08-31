@@ -2,5 +2,5 @@
 
 void sendTelemetry() {
     char telemetryPacket[] = "sth"; // replace this with actual telemetry data
-    RADIO_UART.write(telemetryPacket);
+    RADIO_UART.println(telemetryPacket);
 }

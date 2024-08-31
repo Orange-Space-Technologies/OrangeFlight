@@ -1,5 +1,4 @@
-#include "state.h"
-#include "imumaths.h"
+#include "state_vector.h"
 
 void StateVector::update(imu::Vector<3> acceleration) {
     ulong now = millis();

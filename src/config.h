@@ -1,3 +1,5 @@
+#pragma once
+
 // Config file specifing everything from which GPIO pins to use to the weight and center of gravity and inertia of the rocket
 
 // Pyro pins
